@@ -220,14 +220,13 @@
   .rules span{ color:var(--ink-2); font-size:15px; }
 
   /* rutina */
-  .routine{ display:grid; gap:12px; max-width:var(--measure); margin:22px 0; }
-  .routine div{
-    display:grid; grid-template-columns:110px 1fr; gap:16px;
-    background:var(--panel); border:1px solid var(--line);
-    border-radius:10px; padding:16px 18px;
-  }
-  .routine .w{ font-weight:700; font-size:14px; color:var(--blue); }
-  .routine .a{ font-size:15px; color:var(--ink-2); }
+  .routine{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin:22px 0; }
+  .routine > .rcard{ background:var(--surface,#141414); border:1px solid var(--line,#262626); border-radius:14px; padding:16px 16px 18px; display:flex; flex-direction:column; gap:8px; }
+  .routine .rhead{ display:flex; align-items:center; gap:10px; }
+  .routine .ric{ width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:19px; background:rgba(59,158,255,.12); flex:none; }
+  .routine .w{ font-weight:800; font-size:15px; color:var(--blue); }
+  .routine .a{ font-size:14.5px; color:var(--ink-2); line-height:1.5; margin:0; }
+  .routine .auto{ font-size:12px; color:#4ade80; font-weight:600; }
 
   footer{
     border-top:1px solid var(--line);
@@ -246,7 +245,6 @@
     main{ padding-top:32px; }
     .hero{ padding:40px 20px 34px; }
     .map{ grid-template-columns:repeat(2,1fr); }
-    .routine div{ grid-template-columns:1fr; gap:4px; }
   }
 
   @media print{
@@ -254,7 +252,7 @@
     nav.toc, .hero-meta{ display:none; }
     .shell{ grid-template-columns:1fr; }
     section{ page-break-inside:avoid; border-color:#ccc; }
-    .note,.map div,.routine div,pre{ border-color:#ccc; background:#f7f7f7; color:#000; }
+    .note,.map div,.routine .rcard,pre{ border-color:#ccc; background:#f7f7f7; color:#000; }
     .hero{ background:#fff; border-color:#ccc; }
     h1,h2.title,h3.sub,.steps h3,.rules b,.map .t{ color:#000; }
     p,.lede,.steps p,.rules span,td:last-child,.map .d,.routine .a{ color:#333; }
@@ -670,7 +668,7 @@
       <table>
         <tr><th>Sección</th><th>Qué cambiás</th></tr>
         <tr><td class="nowrap">🏋️ Datos del gimnasio</td><td>Nombre y logo (aparecen en el login, el menú y los mails). Teléfono, email y dirección: los alumnos los ven en su inicio, en la pantalla de pago y al pie de los mails, con botones para escribirte por WhatsApp, llamarte o ver cómo llegar</td></tr>
-        <tr><td class="nowrap">💳 Packs y precios</td><td>Nombre, cantidad de clases y precio de cada pack (te muestra el precio por clase). Podés ocultar un pack o agregar uno nuevo. Acá también elegís a los cuántos días vencen los créditos</td></tr>
+        <tr><td class="nowrap">💳 Packs y precios</td><td>Nombre, cantidad de clases y precio de cada pack (te muestra el precio por clase). Podés ocultar un pack o agregar uno nuevo. Acá también elegís a los cuántos días vencen los créditos y con cuántas horas de anticipación se devuelve el crédito cuando un alumno se da de baja (20 por defecto)</td></tr>
         <tr><td class="nowrap">💬 WhatsApp y avisos</td><td>Lo de la sección anterior</td></tr>
       </table>
     </section>
@@ -679,28 +677,30 @@
     <section id="rutina">
       <div class="num">14</div>
       <h2 class="title">Rutina recomendada</h2>
-      <p class="lede">Un orden posible para que no se te acumule nada.</p>
+      <p class="lede">Lo que te toca hacer a vos y cada cuánto. Todo lo demás lo hace el sistema solo.</p>
 
       <div class="routine">
-        <div>
-          <div class="w">Cada clase</div>
-          <div class="a">Abrí el lector y escaneá a medida que van llegando.</div>
+        <div class="rcard">
+          <div class="rhead"><span class="ric">📲</span><span class="w">En cada clase</span></div>
+          <p class="a">Abrí el <b>Lector QR</b> y escaneá a los alumnos a medida que llegan. La cámara queda prendida.</p>
         </div>
-        <div>
-          <div class="w">Todos los días</div>
-          <div class="a">Mirá si hay aptos pendientes en 🩺 Aptos y validalos. Los pagos y los avisos se manejan solos.</div>
+        <div class="rcard">
+          <div class="rhead"><span class="ric">🩺</span><span class="w">Todos los días</span></div>
+          <p class="a">Entrá a <b>Aptos</b> si el botón muestra pendientes y validalos.</p>
+          <span class="auto">✓ Los pagos y los avisos se manejan solos</span>
         </div>
-        <div>
-          <div class="w">Cada semana</div>
-          <div class="a">Revisá el número de "Sin créditos" del panel y lo cobrado en 💳 Pagos. A los que no renuevan ya les llegó el aviso solo.</div>
+        <div class="rcard">
+          <div class="rhead"><span class="ric">💳</span><span class="w">Cada semana</span></div>
+          <p class="a">Mirá lo cobrado en <b>Pagos</b> y el número de <b>Sin créditos</b> del panel.</p>
+          <span class="auto">✓ A los que no renuevan ya les llegó el aviso</span>
         </div>
-        <div>
-          <div class="w">Fin de mes</div>
-          <div class="a">Cargá con clases recurrentes los turnos del mes que viene.</div>
+        <div class="rcard">
+          <div class="rhead"><span class="ric">📅</span><span class="w">A fin de mes</span></div>
+          <p class="a">Cargá los turnos del mes que viene con <b>Clases recurrentes</b>.</p>
         </div>
-        <div>
-          <div class="w">Cuando entra alguien nuevo</div>
-          <div class="a">Que cree la cuenta, cargue su celular y suba el apto. Lo validás, compra su pack con MercadoPago y ya puede anotarse.</div>
+        <div class="rcard">
+          <div class="rhead"><span class="ric">👋</span><span class="w">Cuando entra alguien nuevo</span></div>
+          <p class="a">Que cree su cuenta, cargue su celular y suba el apto. Lo validás y ya puede pagar y anotarse.</p>
         </div>
       </div>
     </section>

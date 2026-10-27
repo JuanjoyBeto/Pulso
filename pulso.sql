@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS configuracion (
   whatsapp_activo tinyint(1) NOT NULL DEFAULT 0,
   dias_aviso_vencimiento int(11) NOT NULL DEFAULT 3,
   creditos_aviso int(11) NOT NULL DEFAULT 3,
+  horas_cancelacion int(11) NOT NULL DEFAULT 20,
   PRIMARY KEY (id)
 );
 CREATE TABLE IF NOT EXISTS packs (

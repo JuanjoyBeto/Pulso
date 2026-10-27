@@ -46,6 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['seccion'] ?? '') === 'gym'
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['seccion'] ?? '') === 'packs') {
     $dias = max(1, min(365, (int)($_POST['dias_vencimiento'] ?? 31)));
     mysqli_query($conex, "UPDATE configuracion SET dias_vencimiento=$dias WHERE id=1");
+    $hc = max(0, min(168, (int)($_POST['horas_cancelacion'] ?? 20)));
+    @mysqli_query($conex, "UPDATE configuracion SET horas_cancelacion=$hc WHERE id=1");
     foreach (($_POST['pack'] ?? array()) as $id => $p) {
         $id  = (int)$id;
         $nom = mysqli_real_escape_string($conex, trim($p['nombre'] ?? ''));
@@ -258,6 +260,10 @@ $alumnos    = mysqli_query($conex, "SELECT id, nombre, apellido, telefono, wa_av
       <div class="fila" style="margin-top:10px">
         <div><b>⏳ Los créditos vencen a los</b><small>Se cuentan desde el día de la compra</small></div>
         <div style="display:flex;align-items:center;gap:8px"><div class="field" style="margin:0"><input class="num" type="number" name="dias_vencimiento" min="1" max="365" value="<?= (int)cfg('dias_vencimiento', 31) ?>"></div><span style="color:var(--text2);font-size:13px">días</span></div>
+      </div>
+      <div class="fila">
+        <div><b>↩️ Devolver el crédito si se da de baja con</b><small>Horas de anticipación. Con menos, puede darse de baja pero pierde el crédito</small></div>
+        <div style="display:flex;align-items:center;gap:8px"><div class="field" style="margin:0"><input class="num" type="number" name="horas_cancelacion" min="0" max="168" value="<?= (int)cfg('horas_cancelacion', 20) ?>"></div><span style="color:var(--text2);font-size:13px">horas</span></div>
       </div>
       <button class="btn btn-blue" style="margin-top:12px">Guardar packs</button>
     </form>
