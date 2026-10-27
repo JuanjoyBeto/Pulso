@@ -1,5 +1,11 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once __DIR__ . '/config.php';
+
+// Créditos vencidos: se ponen en 0 solos (una vez por día alcanza, pero es una consulta rápida)
+mysqli_query($conex, "UPDATE registronuevo SET creditos = 0 WHERE creditos > 0 AND vencimiento_creditos IS NOT NULL AND vencimiento_creditos < CURDATE()");
 
 function usuario_autenticado()
 {

@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    $nombre = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'FUNCIONAL'));
+    $nombre = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'Clase'));
     $fecha  = mysqli_real_escape_string($conex, $_POST['fecha'] ?? '');
     $hi     = mysqli_real_escape_string($conex, $_POST['hora_inicio'] ?? '');
     $hf     = mysqli_real_escape_string($conex, $_POST['hora_fin'] ?? '');
@@ -54,8 +54,9 @@ $ts = strtotime($clase['fecha']);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Editar clase</title>
+  <title><?= gym_nombre() ?> - Editar clase</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>

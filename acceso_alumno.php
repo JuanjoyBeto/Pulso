@@ -5,7 +5,7 @@ require_once 'dbconn.php';
 $pagina_activa = 'home';
 $uid = $_SESSION['usuario_id'];
 
-$res_cred = mysqli_query($conex, "SELECT creditos, vencimiento_creditos FROM registronuevo WHERE id=$uid LIMIT 1");
+$res_cred = mysqli_query($conex, "SELECT creditos, vencimiento_creditos, telefono FROM registronuevo WHERE id=$uid LIMIT 1");
 $alumno = mysqli_fetch_assoc($res_cred);
 $creditos = (int)($alumno['creditos'] ?? 0);
 $vencimiento = $alumno['vencimiento_creditos'] ?? null;
@@ -38,8 +38,9 @@ while ($p = mysqli_fetch_assoc($res_proximas)) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Inicio</title>
+  <title><?= gym_nombre() ?> - Inicio</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -61,6 +62,15 @@ while ($p = mysqli_fetch_assoc($res_proximas)) {
     </div>
     <a href="#" class="credits-add" onclick="document.getElementById('modal-pack').classList.add('show');return false;">+</a>
   </div>
+
+  <?php $dias_rest = $vencimiento ? (int)floor((strtotime($vencimiento) - strtotime(date('Y-m-d'))) / 86400) : -1;
+  if ($creditos > 0 && $dias_rest >= 0 && $dias_rest <= 5): ?>
+  <div class="alert alert-info" style="margin-top:14px">⏰ Tus <?= $creditos ?> créditos vencen <?= $dias_rest == 0 ? 'hoy' : "en $dias_rest días" ?>. ¡Usalos o renová tu pack!</div>
+  <?php endif; ?>
+
+  <?php if (wa_configurado() && empty($alumno['telefono'])): ?>
+  <a href="perfil.php" class="alert alert-info" style="display:block;margin-top:14px;text-decoration:none">💬 Cargá tu celular en tu perfil para recibir avisos por WhatsApp →</a>
+  <?php endif; ?>
 
   <!-- PRÓXIMA CLASE -->
   <?php if ($prox): $ts = strtotime($prox['fecha']); ?>
@@ -110,9 +120,11 @@ while ($p = mysqli_fetch_assoc($res_proximas)) {
   </div>
   <?php endif; ?>
 
+  <?= tarjeta_contacto() ?>
+
   <!-- WATERMARK CON LOGO REAL -->
   <div style="text-align:center;padding:40px 0 10px;opacity:0.15">
-    <img src="logo_tp.png" alt="Training Point" style="height:50px;width:auto;object-fit:contain">
+    <img src="<?= gym_logo() ?>" alt="<?= gym_nombre() ?>" style="height:50px;width:auto;object-fit:contain">
   </div>
 </div>
 
@@ -121,19 +133,14 @@ while ($p = mysqli_fetch_assoc($res_proximas)) {
   <div class="modal-box">
     <button class="modal-close" onclick="document.getElementById('modal-pack').classList.remove('show')">✕</button>
     <div class="modal-handle"></div>
-    <div class="modal-title">Renovar abono</div>
+    <div class="modal-title">Comprar créditos</div>
+    <?php $rp = mysqli_query($conex, "SELECT * FROM packs WHERE activo=1 ORDER BY creditos");
+    while ($pk = mysqli_fetch_assoc($rp)): ?>
     <div class="pack-option">
-      <div><div class="pack-name">4 créditos</div><div class="pack-sub">Transferencia bancaria</div></div>
-      <a href="pago.php?pack=4" class="btn-pack">Comprar</a>
+      <div><div class="pack-name"><?= htmlspecialchars($pk['nombre']) ?></div><div class="pack-sub"><?= (int)$pk['creditos'] ?> créditos · $<?= number_format($pk['precio'], 0, ',', '.') ?></div></div>
+      <a href="pago.php?pack=<?= (int)$pk['id'] ?>" class="btn-pack">Comprar</a>
     </div>
-    <div class="pack-option">
-      <div><div class="pack-name">8 créditos</div><div class="pack-sub">Transferencia bancaria</div></div>
-      <a href="pago.php?pack=8" class="btn-pack">Comprar</a>
-    </div>
-    <div class="pack-option">
-      <div><div class="pack-name">12 créditos</div><div class="pack-sub">Transferencia bancaria</div></div>
-      <a href="pago.php?pack=12" class="btn-pack">Comprar</a>
-    </div>
+    <?php endwhile; ?>
   </div>
 </div>
 

@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    mysqli_close($conex);
 }
 ?>
 <!DOCTYPE html>
@@ -45,14 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Registrarse</title>
+  <title><?= gym_nombre() ?> - Registrarse</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <div class="auth-bg">
   <div class="auth-card">
     <div class="auth-logo">
-      <img src="logo_tp.png" alt="Training Point" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
+      <img src="<?= gym_logo() ?>" alt="<?= gym_nombre() ?>" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
     </div>
     <p class="auth-subtitle">Creá tu cuenta</p>
 
@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="field"><label>Email *</label><input type="email" name="email" placeholder="juan@email.com" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required></div>
       <div class="field"><label>Usuario *</label><input type="text" name="usuario" placeholder="juanperez99" value="<?= htmlspecialchars($_POST['usuario'] ?? '') ?>" required></div>
       <div class="field"><label>Contraseña *</label><input type="password" name="password" placeholder="Mínimo 6 caracteres" required></div>
-      <div class="field"><label>Teléfono</label><input type="tel" name="telefono" placeholder="+54 11 2233-4455" value="<?= htmlspecialchars($_POST['telefono'] ?? '') ?>"></div>
+      <div class="field"><label>Celular (para avisos por WhatsApp)</label><input type="tel" name="telefono" placeholder="+54 9 11 2345 6789" value="<?= htmlspecialchars($_POST['telefono'] ?? '') ?>"></div>
       <div class="field">
         <label>Género</label>
         <select name="genero">

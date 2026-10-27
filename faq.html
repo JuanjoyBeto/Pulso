@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preguntas frecuentes — Pulso</title>
+<meta name="description" content="Las dudas más comunes sobre Pulso, resueltas: pagos con MercadoPago, créditos, reservas, código QR, apto médico, avisos por WhatsApp y panel del gimnasio.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#EDF0F4; --surface:#FFFFFF; --surface-2:#F5F7FA; --surface-3:#EAEEF3;
+  --ink:#0F1720; --ink-2:#3E4B5A; --muted:#6B7787; --line:#D8DEE6; --line-soft:#E7ECF1;
+  --accent:#0B57C7; --accent-soft:#E3EDFC; --accent-ink:#0B57C7;
+  --shadow:0 1px 2px rgba(15,23,32,.06), 0 8px 24px -12px rgba(15,23,32,.18);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0B1017; --surface:#141B24; --surface-2:#1A222C; --surface-3:#202A36;
+    --ink:#E8EEF6; --ink-2:#BAC6D4; --muted:#8493A4; --line:#26313D; --line-soft:#1E2732;
+    --accent:#5FA3FF; --accent-soft:#152740; --accent-ink:#8FBEFF;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0B1017; --surface:#141B24; --surface-2:#1A222C; --surface-3:#202A36;
+  --ink:#E8EEF6; --ink-2:#BAC6D4; --muted:#8493A4; --line:#26313D; --line-soft:#1E2732;
+  --accent:#5FA3FF; --accent-soft:#152740; --accent-ink:#8FBEFF;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Barlow","Helvetica Neue",Arial,sans-serif; font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;}
+.wrap{max-width:820px; margin:0 auto; padding:36px 22px 80px; display:flex; flex-direction:column; gap:24px;}
+@media (max-width:620px){ .wrap{padding:24px 15px 60px; gap:20px;} }
+
+.eyebrow{font-family:"Barlow Condensed",sans-serif; font-size:15px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent-ink);}
+h1{font-family:"Archivo",sans-serif; font-weight:800; letter-spacing:-.024em; font-size:clamp(30px,5.4vw,44px); line-height:1.04; margin:8px 0 12px; text-wrap:balance;}
+.tagline{margin:0; color:var(--ink-2); font-size:18px; max-width:58ch;}
+
+.navback{display:flex; flex-wrap:wrap; gap:9px; margin-top:6px;}
+.navback a{
+  display:inline-block; text-decoration:none; font-family:"Barlow Condensed",sans-serif;
+  font-size:15px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  background:var(--surface); border:1px solid var(--line); border-radius:8px;
+  padding:7px 14px; color:var(--ink-2);
+}
+.navback a:hover{border-color:var(--accent); color:var(--accent-ink);}
+.navback a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+/* buscador */
+.search{position:relative;}
+#q{
+  width:100%; background:var(--surface); border:1px solid var(--line); border-radius:11px;
+  padding:13px 15px; color:var(--ink); font-family:"Barlow",sans-serif; font-size:16.5px;
+  box-shadow:var(--shadow);
+}
+#q:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft);}
+#qcount{font-size:14px; color:var(--muted); margin:8px 0 0; min-height:1.3em;}
+
+.faqlab{font-family:"Barlow Condensed",sans-serif; font-size:14px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:16px 0 2px;}
+details{background:var(--surface); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow); overflow:hidden; margin-bottom:9px;}
+details[open]{border-color:var(--accent);}
+summary{cursor:pointer; padding:14px 18px; font-family:"Archivo",sans-serif; font-weight:700; font-size:16.5px;
+  list-style:none; display:flex; gap:11px; align-items:flex-start; color:var(--ink); line-height:1.35;}
+summary::-webkit-details-marker{display:none;}
+summary::before{content:"+"; font-family:"IBM Plex Mono",monospace; color:var(--accent-ink); font-size:18px; line-height:1.25; flex:none;}
+details[open] summary::before{content:"–";}
+summary:hover{background:var(--surface-2);}
+summary:focus-visible{outline:2px solid var(--accent); outline-offset:-2px;}
+details .ans{padding:0 18px 16px 47px; color:var(--ink-2); font-size:16px;}
+@media (max-width:520px){ details .ans{padding-left:18px;} }
+details .ans p{margin:0 0 9px;}
+details .ans p:last-child{margin-bottom:0;}
+b,strong{font-weight:600; color:var(--ink);}
+a{color:var(--accent-ink);}
+code{font-family:"IBM Plex Mono",monospace; font-size:.85em; background:var(--surface-2); border:1px solid var(--line-soft); padding:1px 6px; border-radius:5px; color:var(--accent-ink);}
+.ref{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted); background:var(--surface-2); border:1px solid var(--line-soft); padding:1px 6px; border-radius:5px; margin-top:5px;}
+
+.empty{background:var(--surface); border:1px dashed var(--line); border-radius:11px; padding:22px; text-align:center; color:var(--muted);}
+.empty[hidden]{display:none;}
+
+footer.mf{border-top:1px solid var(--line); padding-top:20px; margin-top:8px; color:var(--muted); font-size:14px; display:flex; flex-direction:column; gap:6px;}
+footer.mf b{color:var(--ink-2);}
+
+@media print{ body{background:#fff;} details{break-inside:avoid; box-shadow:none;} details .ans{display:block !important;} .search,.navback{display:none;} }
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+</style>
+  <link rel="icon" type="image/png" href="icono_pulso.png">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Pulso</div>
+    <h1>Preguntas frecuentes</h1>
+    <p class="tagline">Veinticinco dudas puntuales con respuesta autónoma: cada una se entiende sola, sin leer el resto. Si tu pregunta no está, escribinos y la sumamos.</p>
+    <div class="navback">
+      <a href="https://newlogin.alwaysdata.net">Ir al sistema</a>
+      <a href="manual_alumno.html">Manual del alumno</a>
+      <a href="manual_administrador.html">Manual del administrador</a>
+    </div>
+  </header>
+
+  <div class="search">
+    <input type="search" id="q" placeholder="Buscar una pregunta… (por ejemplo: vencimiento, QR, WhatsApp)" autocomplete="off" aria-label="Buscar entre las preguntas frecuentes">
+    <p id="qcount" role="status"></p>
+  </div>
+
+  <div id="faqs">
+
+    <div class="faqlab">Créditos y pagos</div>
+
+    <details>
+      <summary>¿Cómo pago mi pack de clases?</summary>
+      <div class="ans">
+        <p>Desde la app, con <b>MercadoPago</b>: tarjeta de crédito o débito, dinero en cuenta, o <b>en efectivo en Pago Fácil o Rapipago</b> (MercadoPago te da un código y pagás en el local).</p>
+        <p>Si preferís pagar en efectivo en el gimnasio, consultá con el administrador: cuando le pagues, te carga los créditos desde su panel.</p>
+        <span class="ref">RF17 · RF21</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>Pagué y todavía no me aparecen los créditos, ¿qué pasó?</summary>
+      <div class="ans">
+        <p>Con tarjeta o dinero en cuenta se cargan <b>solos, al instante</b>. Con Pago Fácil o Rapipago se cargan cuando MercadoPago confirma el pago, y eso puede tardar unas horas.</p>
+        <p>Si pasó un día entero, escribile al gimnasio con el comprobante que te mandó MercadoPago por mail.</p>
+        <span class="ref">RF21</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Cuándo vencen mis créditos?</summary>
+      <div class="ans">
+        <p>A los <b>31 días de la compra</b> (cada gimnasio puede cambiar ese plazo). Los que no uses no pasan al período siguiente.</p>
+        <p>Si comprás un pack nuevo antes de que venzan, todos tus créditos pasan a vencer en la fecha nueva. La fecha la ves siempre en el inicio y en tu perfil.</p>
+        <span class="ref">RF22 · LIM04</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Me avisan antes de que se me terminen o venzan?</summary>
+      <div class="ans">
+        <p>Sí, solo, por WhatsApp y en la app: cuando te quedan <b>3 créditos</b>, cuando te quedás <b>sin créditos</b>, y <b>3 días antes</b> de que venzan.</p>
+        <span class="ref">RF24</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Me devuelven el crédito si cancelo?</summary>
+      <div class="ans">
+        <p>Sí, siempre que canceles <b>antes de dar presente</b>. Si ya escanearon tu QR, esa clase se considera usada.</p>
+        <span class="ref">RF09</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>Falté sin avisar, ¿pierdo la clase?</summary>
+      <div class="ans">
+        <p>Sí. El crédito se descuenta al reservar y solo vuelve si cancelás. Al no cancelar, ese lugar quedó ocupado y nadie más pudo usarlo.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Me llega una factura?</summary>
+      <div class="ans">
+        <p>El sistema no emite factura. Te queda el registro del pack en tu historial, y MercadoPago te manda por mail el comprobante de cada pago.</p>
+        <span class="ref">LIM02</span>
+      </div>
+    </details>
+
+    <div class="faqlab">Clases y reservas</div>
+
+    <details>
+      <summary>¿Por qué solo veo clases de los próximos 30 días?</summary>
+      <div class="ans">
+        <p>Es a propósito. El gimnasio puede cargar las clases de varios meses de una sola vez, y sin ese límite alguien podría anotarse hoy a una clase de dentro de medio año. Cada día que pasa se habilita un día más adelante.</p>
+        <span class="ref">LIM05</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Me recuerdan las clases a las que estoy anotado?</summary>
+      <div class="ans">
+        <p>Sí. El día anterior te llega un recordatorio por WhatsApp y en la app. Si te anotás a una clase de hoy o de mañana, te llega la confirmación en el momento.</p>
+        <span class="ref">RF24</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>La clase que quiero está llena, ¿hay lista de espera?</summary>
+      <div class="ans">
+        <p>Todavía no. Si se llena, elegí otro horario o volvé a mirar más tarde por si alguien cancela. La lista de espera automática está en las mejoras futuras.</p>
+        <span class="ref">F4</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Puedo anotarme a dos clases el mismo día?</summary>
+      <div class="ans">
+        <p>Sí, siempre que tengas créditos. Cada inscripción descuenta el suyo y genera su propio código QR.</p>
+      </div>
+    </details>
+
+    <div class="faqlab">El código QR</div>
+
+    <details>
+      <summary>¿Por qué mi código QR cambia según la clase?</summary>
+      <div class="ans">
+        <p>Porque no es un código tuyo, es un código <b>por clase</b>: cada inscripción genera el suyo. Así la asistencia queda registrada siempre en la clase correcta, aunque estés anotado a varias.</p>
+        <span class="ref">RF12</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>Me quedé sin batería, ¿no puedo entrenar?</summary>
+      <div class="ans">
+        <p>Podés entrenar igual. Avisale al gimnasio: ven el listado de inscriptos a esa clase desde su panel y lo resuelven.</p>
+      </div>
+    </details>
+
+    <div class="faqlab">Cuenta, apto médico y WhatsApp</div>
+
+    <details>
+      <summary>¿Tengo que subir el apto médico sí o sí?</summary>
+      <div class="ans">
+        <p>Sí, es lo que te habilita a entrenar. No se pide al registrarte, pero subilo apenas lo tengas desde tu perfil (foto o PDF, hasta 5 MB).</p>
+        <p>Después de subirlo queda <b>"Pendiente de validación"</b> hasta que el gimnasio lo revise. Cuando lo aprueban te llega un aviso.</p>
+        <span class="ref">RF14 · RF23</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>Me rechazaron el apto médico, ¿qué hago?</summary>
+      <div class="ans">
+        <p>En tu perfil, en "Apto médico", ves el <b>motivo</b> (por ejemplo, que no se lee o le falta la firma). Subí uno nuevo desde ahí y vuelve a quedar pendiente para que lo revisen.</p>
+        <span class="ref">RF23</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Quién puede ver mi apto médico?</summary>
+      <div class="ans">
+        <p>Solo vos y el administrador del gimnasio. Ningún otro alumno tiene acceso a los datos ni a los archivos de los demás.</p>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Cómo recibo los avisos por WhatsApp?</summary>
+      <div class="ans">
+        <p>Entrá a <b>Mi Perfil</b>, cargá tu celular con código de área (ej: +54 9 11 2345 6789) y dejá tildada la casilla "Quiero recibir avisos por WhatsApp". Si no los querés más, destildala.</p>
+        <span class="ref">RF24</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Puedo entrar con mi cuenta de Google?</summary>
+      <div class="ans">
+        <p>Sí, y es la forma más rápida: no tenés que acordarte de otra contraseña.</p>
+        <span class="ref">RF02</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Hay una app para bajar del Play Store o del App Store?</summary>
+      <div class="ans">
+        <p>No, y es a propósito: publicar y mantener una app en las tiendas tiene un costo anual que encarecería el servicio.</p>
+        <p>La página funciona igual desde el navegador. Si la querés a mano, agregala a la pantalla de inicio desde el menú de tu navegador.</p>
+        <span class="ref">LIM07</span>
+      </div>
+    </details>
+
+    <div class="faqlab">Para el gimnasio</div>
+
+    <details>
+      <summary>¿Pulso sirve para mi gimnasio aunque no sea de funcional?</summary>
+      <div class="ans">
+        <p>Sí. Desde <b>Configuración</b> cargás el nombre, el logo, los datos de contacto, los packs y los precios de tu gimnasio. Las clases pueden ser de cualquier actividad: funcional, boxeo, yoga, spinning o lo que des.</p>
+        <span class="ref">RF25 · LIM06</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Tengo que cargar los créditos a mano cuando alguien paga?</summary>
+      <div class="ans">
+        <p>No. Cuando el alumno paga con MercadoPago, el sistema verifica el pago y le carga los créditos solo, con su vencimiento. Solo si alguien te paga en efectivo en el gimnasio se los cargás vos desde su ficha.</p>
+        <span class="ref">RF21</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Los avisos a los alumnos se mandan solos?</summary>
+      <div class="ans">
+        <p>Sí. El sistema avisa solo por WhatsApp y en la app: recordatorio de clase, pocos créditos, sin créditos, vencimiento, pago aprobado y resultado del apto.</p>
+        <p>En <b>Configuración → WhatsApp y avisos</b> podés ajustar con cuánta anticipación avisa y <b>simular cualquier aviso</b> para ver cómo le llega al alumno.</p>
+        <span class="ref">RF24 · RF26</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Cómo valido el apto médico de un alumno?</summary>
+      <div class="ans">
+        <p>Entrá a <b>Aptos</b> en el menú: ves los pendientes con la imagen o el PDF, y tocás <b>Aprobar</b> o <b>Rechazar</b> (con el motivo). Al alumno le llega el resultado solo.</p>
+        <span class="ref">RF23</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>Generé 150 clases que no van, ¿las borro una por una?</summary>
+      <div class="ans">
+        <p>No. Tildás las que querés borrar, el sistema te muestra cuántas llevás seleccionadas y las eliminás todas juntas. Hay un botón de «Seleccionar todas».</p>
+        <span class="ref">RF06</span>
+      </div>
+    </details>
+
+    <details>
+      <summary>¿Cómo hago una copia de seguridad?</summary>
+      <div class="ans">
+        <p>Se exporta la base de datos desde phpMyAdmin en formato SQL. Conviene una copia por mes y siempre antes de cargar un período nuevo o de hacer un borrado en lote.</p>
+      </div>
+    </details>
+
+  </div>
+
+  <div class="empty" id="empty" hidden>
+    No encontramos ninguna pregunta con esas palabras. Probá con otra, o escribinos y la sumamos.
+  </div>
+
+  <footer class="mf">
+    <div><b>Pulso</b> · Preguntas frecuentes · Versión 2.0.</div>
+    <div>Sistema desarrollado por Juan José Bosio y Joaquín Goyechea — 7° Informática A.</div>
+    <div>Los códigos (RF, LIM, F) remiten a los requisitos, limitaciones y mejoras futuras de la documentación técnica del proyecto.</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var q = document.getElementById('q');
+  var count = document.getElementById('qcount');
+  var empty = document.getElementById('empty');
+  var cont = document.getElementById('faqs');
+  if (!q || !cont) return;
+
+  var items = Array.prototype.slice.call(cont.querySelectorAll('details')).map(function(d){
+    return { el: d, txt: (d.textContent || '').toLowerCase() };
+  });
+  var labels = Array.prototype.slice.call(cont.querySelectorAll('.faqlab'));
+
+  function norm(s){
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  }
+  items.forEach(function(it){ it.txt = norm(it.txt); });
+
+  q.addEventListener('input', function(){
+    var term = norm(q.value.trim());
+    if (!term){
+      items.forEach(function(it){ it.el.hidden = false; it.el.open = false; });
+      labels.forEach(function(l){ l.hidden = false; });
+      count.textContent = '';
+      empty.hidden = true;
+      return;
+    }
+    var hits = 0;
+    items.forEach(function(it){
+      var match = it.txt.indexOf(term) !== -1;
+      it.el.hidden = !match;
+      it.el.open = match;
+      if (match) hits++;
+    });
+    labels.forEach(function(l){
+      var anyVisible = false, n = l.nextElementSibling;
+      while (n && n.tagName === 'DETAILS'){
+        if (!n.hidden) anyVisible = true;
+        n = n.nextElementSibling;
+      }
+      l.hidden = !anyVisible;
+    });
+    count.textContent = hits === 0 ? '' : (hits === 1 ? '1 pregunta encontrada' : hits + ' preguntas encontradas');
+    empty.hidden = hits !== 0;
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,114 +1,72 @@
 <?php
 require_once 'auth.php';
-// Conexión centralizada a la base de datos
+requerir_login();
 require_once 'dbconn.php';
+$pagina_activa = 'perfil';
 
-// Validar si el usuario realmente ha iniciado sesión
-if (!isset($_SESSION['usuario'])) {
-    header("Location: index.php");
-    exit();
-}
-
-$mensaje_feedback = "";
-$usuario_activo = $_SESSION['usuario'];
+$mensaje = '';
+$tipo = '';
+$uid = (int)$_SESSION['usuario_id'];
 
 if (isset($_POST['Cambiar'])) {
-    // Validar que ningún campo llegue vacío
-    if (!empty($_POST['pass_actual']) && !empty($_POST['pass_nueva']) && !empty($_POST['pass_conf'])) {
-        
-        $pass_actual = $_POST['pass_actual'];
-        $pass_nueva  = $_POST['pass_nueva'];
-        $pass_conf   = $_POST['pass_conf'];
+    $pass_actual = $_POST['pass_actual'] ?? '';
+    $pass_nueva  = $_POST['pass_nueva'] ?? '';
+    $pass_conf   = $_POST['pass_conf'] ?? '';
 
-        // 1. Verificar si las nuevas contraseñas coinciden entre sí
-        if ($pass_nueva !== $pass_conf) {
-            $mensaje_feedback = "<div class='alert alert-danger'>❌ Las nuevas contraseñas no coinciden.</div>";
-        } else {
-            // Sanitizar el nombre de usuario de la sesión
-            $usuario_clean = mysqli_real_escape_string($conex, $usuario_activo);
-            
-            // 2. Obtener el hash actual de la base de datos para verificarlo
-            $sql = "SELECT pass FROM registronuevo WHERE user = '$usuario_clean' LIMIT 1";
-            $resultado = mysqli_query($conex, $sql);
+    $res = mysqli_query($conex, "SELECT pass FROM registronuevo WHERE id = $uid LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
 
-            if ($resultado && mysqli_num_rows($resultado) == 1) {
-                $row = mysqli_fetch_assoc($resultado);
-                $hash_actual = $row['pass'];
-
-                // 3. Verificar si la contraseña actual ingresada es correcta
-                if (password_verify($pass_actual, $hash_actual)) {
-                    
-                    // 4. Cifrar la nueva contraseña de forma segura
-                    $nuevo_hash = password_hash($pass_nueva, PASSWORD_DEFAULT, array("cost" => 10));
-                    
-                    // 5. Actualizar en la base de datos
-                    $update_sql = "UPDATE registronuevo SET pass = '$nuevo_hash' WHERE user = '$usuario_clean'";
-                    
-                    if (mysqli_query($conex, $update_sql)) {
-                        $mensaje_feedback = "
-                        <div class='alert alert-success text-center'>
-                            <h4>¡Contraseña actualizada! 🎉</h4>
-                            <p>Serás redirigido al panel en 3 segundos...</p>
-                        </div>
-                        <script>
-                            setTimeout(function(){
-                                window.location.href = 'accesocorrecto.php';
-                            }, 3000);
-                        </script>";
-                    } else {
-                        $mensaje_feedback = "<div class='alert alert-danger'>❌ Error interno al actualizar la base de datos.</div>";
-                    }
-                } else {
-                    $mensaje_feedback = "<div class='alert alert-danger'>❌ La contraseña actual introducida es incorrecta.</div>";
-                }
-            } else {
-                $mensaje_feedback = "<div class='alert alert-danger'>❌ Error al identificar el usuario activo.</div>";
-            }
-        }
+    if ($pass_actual === '' || $pass_nueva === '' || $pass_conf === '') {
+        $mensaje = 'Completá todos los campos.'; $tipo = 'danger';
+    } elseif ($pass_nueva !== $pass_conf) {
+        $mensaje = 'Las contraseñas nuevas no coinciden.'; $tipo = 'danger';
+    } elseif (strlen($pass_nueva) < 6) {
+        $mensaje = 'La contraseña nueva tiene que tener al menos 6 caracteres.'; $tipo = 'danger';
+    } elseif (!$row || !password_verify($pass_actual, $row['pass'])) {
+        $mensaje = 'La contraseña actual es incorrecta.'; $tipo = 'danger';
     } else {
-        $mensaje_feedback = "<div class='alert alert-danger'>❌ Por favor, complete todos los campos obligatorios.</div>";
+        $hash = mysqli_real_escape_string($conex, password_hash($pass_nueva, PASSWORD_DEFAULT));
+        mysqli_query($conex, "UPDATE registronuevo SET pass = '$hash' WHERE id = $uid");
+        $mensaje = '✅ ¡Listo! Tu contraseña se cambió correctamente.'; $tipo = 'success';
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambiar Contraseña - Netflix Style</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><?= gym_nombre() ?> - Cambiar contraseña</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
-<body class="password-page">
+<body>
+<?php include '_layout_nav.php'; ?>
+<div class="page-body">
+  <div class="page-title">🔒 Cambiar contraseña</div>
 
-    <div class="crypto-container">
-        <h2>Cambiar Contraseña</h2>
-        
-        <?php echo $mensaje_feedback; ?>
+  <?php if ($mensaje): ?>
+    <div class="alert alert-<?= $tipo ?>"><?= htmlspecialchars($mensaje) ?></div>
+  <?php endif; ?>
 
-        <form action="cambiar_contra.php" method="post">
-            
-            <div class="form-group m-0">
-                <label class="text-muted small">Contraseña Actual</label>
-                <input type="password" name="pass_actual" class="form-control-netflix w-100" placeholder="Introduce tu clave actual" required>
-            </div>
-            
-            <div class="form-group m-0">
-                <label class="text-muted small">Nueva Contraseña</label>
-                <input type="password" name="pass_nueva" class="form-control-netflix w-100" placeholder="Nueva contraseña" required>
-            </div>
-
-            <div class="form-group m-0">
-                <label class="text-muted small">Confirmar Nueva Contraseña</label>
-                <input type="password" name="pass_conf" class="form-control-netflix w-100" placeholder="Repite la nueva contraseña" required>
-            </div>
-            
-            <button type="submit" name="Cambiar" class="btn btn-netflix btn-block">Guardar Cambios</button>
-        </form>
-
-        <a href="accesocorrecto.php" class="back-link">Volver al Panel</a>
+  <form method="post" class="card-tp" style="max-width:460px">
+    <div class="field">
+      <label>Contraseña actual</label>
+      <input type="password" name="pass_actual" placeholder="••••••••" required>
     </div>
+    <div class="field">
+      <label>Contraseña nueva</label>
+      <input type="password" name="pass_nueva" placeholder="Mínimo 6 caracteres" minlength="6" required>
+    </div>
+    <div class="field">
+      <label>Repetí la contraseña nueva</label>
+      <input type="password" name="pass_conf" placeholder="••••••••" minlength="6" required>
+    </div>
+    <button type="submit" name="Cambiar" class="btn btn-blue">Guardar cambios</button>
+  </form>
 
+  <a href="perfil.php" style="display:block;margin-top:16px;color:var(--text2);font-size:13px;text-decoration:none">← Volver a mi perfil</a>
+</div>
+<?php include '_layout_nav_close.php'; ?>
 </body>
 </html>

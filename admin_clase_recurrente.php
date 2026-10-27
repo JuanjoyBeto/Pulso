@@ -7,7 +7,7 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nombre     = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'FUNCIONAL'));
+    $nombre     = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'Clase'));
     $hi         = $_POST['hora_inicio'] ?? '';
     $hf         = $_POST['hora_fin'] ?? '';
     $cap        = (int)($_POST['capacidad'] ?? 20);
@@ -49,8 +49,9 @@ $dias_nombres = ['1'=>'Lunes','2'=>'Martes','3'=>'Miércoles','4'=>'Jueves','5'=
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Clases recurrentes</title>
+  <title><?= gym_nombre() ?> - Clases recurrentes</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -66,7 +67,7 @@ $dias_nombres = ['1'=>'Lunes','2'=>'Martes','3'=>'Miércoles','4'=>'Jueves','5'=
   <form method="post">
     <div class="field">
       <label>Nombre de la clase</label>
-      <input type="text" name="nombre" value="FUNCIONAL" required>
+      <input type="text" name="nombre" placeholder="Ej: Funcional, Boxeo, Yoga..." required>
     </div>
 
     <div class="field">

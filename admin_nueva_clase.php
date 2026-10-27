@@ -6,7 +6,7 @@ $pagina_activa = 'admin';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD']==='POST') {
-    $nombre = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'FUNCIONAL'));
+    $nombre = mysqli_real_escape_string($conex, trim($_POST['nombre'] ?? 'Clase'));
     $fecha  = mysqli_real_escape_string($conex, $_POST['fecha'] ?? '');
     $hi     = mysqli_real_escape_string($conex, $_POST['hora_inicio'] ?? '');
     $hf     = mysqli_real_escape_string($conex, $_POST['hora_fin'] ?? '');
@@ -31,8 +31,9 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Nueva Clase</title>
+  <title><?= gym_nombre() ?> - Nueva Clase</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -46,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
   <form method="post">
     <div class="field">
       <label>Nombre de la clase</label>
-      <input type="text" name="nombre" value="FUNCIONAL" required>
+      <input type="text" name="nombre" placeholder="Ej: Funcional, Boxeo, Yoga..." required>
     </div>
     <div class="field">
       <label>Fecha *</label>

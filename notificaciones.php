@@ -20,8 +20,9 @@ $res = mysqli_query($conex, $sql);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Notificaciones</title>
+  <title><?= gym_nombre() ?> - Notificaciones</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -33,7 +34,7 @@ $res = mysqli_query($conex, $sql);
     </div>
   <?php else: while ($n = mysqli_fetch_assoc($res)): ?>
     <div class="notif-card">
-      <div class="notif-from"><?= $es_admin ? 'Aviso' : 'Mensaje de Dami' ?></div>
+      <div class="notif-from"><?= $es_admin ? 'Aviso' : 'Mensaje de ' . gym_nombre() ?></div>
       <div class="notif-msg"><?= htmlspecialchars($n['mensaje']) ?></div>
       <div class="notif-time"><?= date('d/m/Y H:i', strtotime($n['fecha'])) ?></div>
     </div>

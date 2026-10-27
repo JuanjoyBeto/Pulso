@@ -33,8 +33,9 @@ $meses_es = ['','ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Mi QR</title>
+  <title><?= gym_nombre() ?> - Mi QR</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -98,7 +99,7 @@ $meses_es = ['','ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov
   $ts = strtotime($clase_actual['fecha']);
 
   // Generar QR con alumno_id + clase_id + token
-  $qr_data = $uid . ':' . $clase_actual['id'] . ':' . md5($uid . ':' . $clase_actual['id'] . 'trainingpoint2025');
+  $qr_data = $uid . ':' . $clase_actual['id'] . ':' . md5($uid . ':' . $clase_actual['id'] . 'pulso2025');
   $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" . urlencode($qr_data);
   ?>
 

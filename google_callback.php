@@ -54,8 +54,6 @@ if (mysqli_num_rows($res) == 1) {
     $_SESSION['nombre_completo'] = $row['nombre'] . ' ' . $row['apellido'];
     $_SESSION['rol']             = $row['rol'];
 
-    mysqli_close($conex);
-
     require_once __DIR__ . '/auth.php';
     redirigir_por_rol($_SESSION['rol']);
 
@@ -90,8 +88,6 @@ if (mysqli_num_rows($res) == 1) {
     $_SESSION['usuario_id']      = mysqli_insert_id($conex);
     $_SESSION['nombre_completo'] = $nombre . ' ' . $apellido;
     $_SESSION['rol']             = 'alumno';
-
-    mysqli_close($conex);
 
     require_once __DIR__ . '/auth.php';
     redirigir_por_rol('alumno');

@@ -1,16 +1,18 @@
+<?php require_once 'config.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Recuperar contraseña</title>
+  <title><?= gym_nombre() ?> - Recuperar contraseña</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <div class="auth-bg">
   <div class="auth-card">
     <div class="auth-logo">
-      <img src="logo_tp.png" alt="Training Point" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
+      <img src="<?= gym_logo() ?>" alt="<?= gym_nombre() ?>" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
     </div>
     <p class="auth-subtitle">Recuperá tu contraseña</p>
     <p style="font-size:13px;color:var(--text2);text-align:center;margin-bottom:20px;">

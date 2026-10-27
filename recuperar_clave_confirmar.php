@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 require_once 'dbconn.php';
+require_once 'config.php';
 session_start();
 
 if (!isset($_GET['e']) || !isset($_GET['t'])) {
@@ -22,19 +23,19 @@ $row = mysqli_fetch_assoc($res);
 $nueva = password_hash($row['CLAVE_NUEVA'], PASSWORD_DEFAULT);
 mysqli_query($conex, "UPDATE registronuevo SET pass='$nueva' WHERE email='$email_s'");
 mysqli_query($conex, "DELETE FROM recuperar WHERE email='$email_s'");
-mysqli_close($conex);
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Contraseña restablecida</title>
+  <title><?= gym_nombre() ?> - Contraseña restablecida</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <div class="auth-bg">
   <div class="auth-card">
-    <div class="auth-logo"><div class="logo-icon">📍</div><h1>TRAINING <span>POINT</span></h1></div>
+    <div class="auth-logo"><img src="<?= gym_logo() ?>" alt="<?= gym_nombre() ?>" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px"></div>
     <div class="alert alert-success" style="text-align:center">
       ✅ ¡Contraseña restablecida!<br>
       <small>Ya podés ingresar con tu nueva contraseña temporal.</small>

@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
     if ($accion === 'agregar' && !empty($_POST['creditos_agregar'])) {
         $cant = (int)$_POST['creditos_agregar'];
-        $venc = date('Y-m-t');
+        $venc = date('Y-m-d', strtotime('+' . (int)cfg('dias_vencimiento', 31) . ' days'));
         mysqli_query($conex, "UPDATE registronuevo SET creditos = COALESCE(creditos,0) + $cant, vencimiento_creditos='$venc' WHERE id=$alumno_id");
         mysqli_query($conex, "INSERT INTO abonos (alumno_id, creditos_total, creditos_usados, fecha_inicio, fecha_fin) VALUES ($alumno_id, $cant, 0, CURDATE(), '$venc')");
     } elseif ($accion === 'quitar' && !empty($_POST['creditos_quitar'])) {
@@ -52,8 +52,9 @@ $creditos = (int)($al['creditos'] ?? 0);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - <?= htmlspecialchars($al['nombre'].' '.$al['apellido']) ?></title>
+  <title><?= gym_nombre() ?> - <?= htmlspecialchars($al['nombre'].' '.$al['apellido']) ?></title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -91,17 +92,27 @@ $creditos = (int)($al['creditos'] ?? 0);
     <div class="info-row">
       <span class="info-label">Apto médico</span>
       <span class="info-val">
+        <?php $est = !empty($al['apto_medico_archivo']) ? ($al['apto_estado'] ?? 'pendiente') : 'sin_cargar';
+              list($ic, $tx, $co) = apto_info($est); ?>
+        <span style="color:<?= $co ?>;font-weight:700"><?= $ic ?> <?= $tx ?></span>
         <?php if (!empty($al['apto_medico_archivo'])): ?>
-          <a href="uploads/aptos/<?= htmlspecialchars($al['apto_medico_archivo']) ?>" target="_blank"
-             style="color:var(--green);font-weight:700;text-decoration:none">
-            ✓ Ver apto →
-          </a>
-        <?php else: ?>
-          <span style="color:var(--red);font-weight:700">✗ Sin cargar</span>
+          · <a href="uploads/aptos/<?= htmlspecialchars($al['apto_medico_archivo']) ?>" target="_blank" style="color:var(--blue);font-weight:700;text-decoration:none">Ver apto →</a>
         <?php endif; ?>
       </span>
     </div>
   </div>
+  <?php if (!empty($al['apto_medico_archivo']) && ($al['apto_estado'] ?? '') !== 'aprobado'): ?>
+  <form method="post" action="admin_aptos.php" class="card-tp" style="margin:-6px 0 20px">
+    <input type="hidden" name="alumno_id" value="<?= (int)$al['id'] ?>">
+    <input type="hidden" name="volver" value="ficha">
+    <div style="font-size:13px;color:var(--text2);margin-bottom:10px">🩺 Validar apto médico</div>
+    <div style="display:flex;gap:8px;margin-bottom:8px">
+      <button name="aprobar" class="btn btn-blue" style="flex:1">✅ Aprobar</button>
+      <button name="rechazar" class="btn btn-outline" style="flex:1;border-color:var(--red);color:var(--red)">❌ Rechazar</button>
+    </div>
+    <div class="field" style="margin:0"><input type="text" name="motivo" placeholder="Motivo si lo rechazás" style="width:100%;box-sizing:border-box;font-size:12px"></div>
+  </form>
+  <?php endif; ?>
 
     <!-- CARGAR CRÉDITOS -->
   <a href="admin_cargar_creditos.php?id=<?= $alumno_id ?>" class="btn btn-blue" style="display:block;text-align:center;text-decoration:none;margin-bottom:20px;padding:16px;font-size:15px">

@@ -46,7 +46,7 @@ if ($clase_asist_id) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Admin</title>
+  <title><?= gym_nombre() ?> - Admin</title>
   <link rel="stylesheet" href="styles.css">
   <style>
     .admin-tabs-mobile { display:flex;overflow-x:auto;gap:8px;padding:0 0 12px;margin-bottom:16px;scrollbar-width:none; }
@@ -69,11 +69,12 @@ if ($clase_asist_id) {
     .clase-selector { background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 16px;width:100%;color:#fff;font-size:14px;font-family:inherit;outline:none;margin-bottom:16px;cursor:pointer; }
     .clase-selector:focus { border-color:var(--blue); }
   </style>
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
 <div class="page-body">
-  <div class="page-title">Panel Admin</div>
+  <div class="page-title" style="display:flex;justify-content:space-between;align-items:center;gap:10px">Panel Admin <a href="admin_configuracion.php" class="btn btn-outline" style="width:auto;padding:8px 14px;font-size:13px;text-decoration:none;border-color:var(--blue);color:var(--blue)">⚙️ Configuración</a></div>
 
   <div class="stat-grid" style="margin-bottom:20px">
     <div class="stat-box"><div class="stat-num"><?= $total_alumnos ?></div><div class="stat-lbl">Alumnos</div></div>
@@ -87,6 +88,10 @@ if ($clase_asist_id) {
     <button class="admin-tab-btn" onclick="showTab('t-clases',this)">📅 Clases</button>
     <button class="admin-tab-btn" onclick="showTab('t-asist',this)">✅ Asistencia</button>
     <button class="admin-tab-btn" onclick="showTab('t-avisos',this)">🔔 Avisos</button>
+    <?php $pp = mysqli_fetch_assoc(mysqli_query($conex, "SELECT COUNT(*) c FROM pagos WHERE estado='pendiente' AND metodo<>'mercadopago'")); ?>
+    <?php $pa = mysqli_fetch_assoc(mysqli_query($conex, "SELECT COUNT(*) c FROM registronuevo WHERE rol='alumno' AND apto_estado='pendiente'")); ?>
+    <a href="admin_aptos.php" class="admin-tab-btn" style="text-decoration:none">🩺 Aptos<?= $pa['c'] ? ' <span style="background:#facc15;color:#000;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px">'.(int)$pa['c'].'</span>' : '' ?></a>
+    <a href="admin_pagos.php" class="admin-tab-btn" style="text-decoration:none">💳 Pagos<?= $pp['c'] ? ' <span style="background:var(--red);color:#fff;border-radius:10px;padding:1px 7px;font-size:11px;margin-left:4px">'.(int)$pp['c'].'</span>' : '' ?></a>
   </div>
 
   <!-- ALUMNOS -->

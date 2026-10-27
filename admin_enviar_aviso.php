@@ -13,27 +13,27 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['mensaje'])) {
         $res = mysqli_query($conex, "SELECT id, nombre, apellido, email FROM registronuevo WHERE rol='alumno'");
         while ($al = mysqli_fetch_assoc($res)) {
             $aid = (int)$al['id'];
-            mysqli_query($conex, "INSERT INTO notificaciones (alumno_id, mensaje, fecha) VALUES ($aid, '$mensaje', NOW())");
+            notificar($aid, '📣 ' . $msg_txt);
             // Mail
             if (!empty($al['email'])) {
                 enviarMail(
                     $al['email'],
                     $al['nombre'] . ' ' . $al['apellido'],
-                    '📍 Mensaje de Training Point',
+                    '📍 Mensaje de ' . cfg('nombre_gimnasio', 'tu gimnasio'),
                     nl2br(htmlspecialchars($msg_txt))
                 );
             }
         }
     } elseif ($tipo === 'alumno' && !empty($_POST['alumno_id'])) {
         $aid = (int)$_POST['alumno_id'];
-        mysqli_query($conex, "INSERT INTO notificaciones (alumno_id, mensaje, fecha) VALUES ($aid, '$mensaje', NOW())");
+        notificar($aid, '📣 ' . $msg_txt);
         $res = mysqli_query($conex, "SELECT nombre, apellido, email FROM registronuevo WHERE id=$aid LIMIT 1");
         $al = mysqli_fetch_assoc($res);
         if ($al && !empty($al['email'])) {
             enviarMail(
                 $al['email'],
                 $al['nombre'] . ' ' . $al['apellido'],
-                '📍 Mensaje de Training Point',
+                '📍 Mensaje de ' . cfg('nombre_gimnasio', 'tu gimnasio'),
                 nl2br(htmlspecialchars($msg_txt))
             );
         }
@@ -42,12 +42,12 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && !empty($_POST['mensaje'])) {
         $res = mysqli_query($conex, "SELECT r.id, r.nombre, r.apellido, r.email FROM inscripciones i JOIN registronuevo r ON i.alumno_id=r.id WHERE i.clase_id=$cid");
         while ($al = mysqli_fetch_assoc($res)) {
             $aid = (int)$al['id'];
-            mysqli_query($conex, "INSERT INTO notificaciones (alumno_id, mensaje, fecha) VALUES ($aid, '$mensaje', NOW())");
+            notificar($aid, '📣 ' . $msg_txt);
             if (!empty($al['email'])) {
                 enviarMail(
                     $al['email'],
                     $al['nombre'] . ' ' . $al['apellido'],
-                    '📍 Mensaje de Training Point',
+                    '📍 Mensaje de ' . cfg('nombre_gimnasio', 'tu gimnasio'),
                     nl2br(htmlspecialchars($msg_txt))
                 );
             }

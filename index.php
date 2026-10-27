@@ -3,22 +3,26 @@ require_once 'auth.php';
 if (usuario_autenticado()) {
     redirigir_por_rol(rol_actual());
 }
+require_once 'config.php';
+$gym  = htmlspecialchars(cfg('nombre_gimnasio', 'Pulso'));
+$logo = htmlspecialchars(cfg('logo', 'logo_pulso.png'));
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Iniciar Sesión</title>
+  <title><?= $gym ?> - Iniciar Sesión</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <div class="auth-bg">
   <div class="auth-card">
     <div class="auth-logo">
-      <img src="logo_tp.png" alt="Training Point" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
+      <img src="<?= $logo ?>" alt="<?= $gym ?>" style="height:75px;width:auto;object-fit:contain;display:block;margin:0 auto 16px">
     </div>
-    <p class="auth-subtitle">Bienvenido de nuevo</p>
+    <p class="auth-subtitle">Bienvenido a <strong style="color:#fff"><?= $gym ?></strong></p>
 
     <?php if (isset($_GET['error'])): ?>
       <div class="alert alert-danger">Usuario o contraseña incorrectos.</div>
@@ -54,6 +58,9 @@ if (usuario_autenticado()) {
       Ingresar con Google
     </a>
     <div class="auth-link">¿No tenés cuenta? <a href="alta.php">Registrate</a></div>
+    <?php if (strcasecmp(cfg('nombre_gimnasio', 'Pulso'), 'Pulso') !== 0): ?>
+    <div style="text-align:center;margin-top:22px;font-size:11px;color:var(--text2);opacity:.6">Funciona con <strong>Pulso</strong></div>
+    <?php endif; ?>
   </div>
 </div>
 </body>

@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($cant > 0) {
             if ($venc === '') {
-                $venc = date('Y-m-t');
+                $venc = date('Y-m-d', strtotime('+' . (int)cfg('dias_vencimiento', 31) . ' days'));
             }
             $venc_esc = mysqli_real_escape_string($conex, $venc);
 
@@ -69,6 +69,7 @@ $ini = strtoupper(substr($al['nombre'],0,1));
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cargar créditos - <?= htmlspecialchars($al['nombre']) ?></title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>
@@ -118,7 +119,7 @@ $ini = strtoupper(substr($al['nombre'],0,1));
       <div class="field">
         <label>Fecha de vencimiento</label>
         <input type="date" name="vencimiento" min="<?= date('Y-m-d') ?>"
-               value="<?= date('Y-m-t') ?>"
+               value="<?= date('Y-m-d', strtotime('+' . (int)cfg('dias_vencimiento', 31) . ' days')) ?>"
                style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:#fff;font-size:16px;font-family:inherit;outline:none">
         <div style="font-size:11px;color:var(--text3);margin-top:6px">
           Por defecto viene el último día del mes actual. Cambialo si querés otra fecha.
@@ -139,7 +140,7 @@ $ini = strtoupper(substr($al['nombre'],0,1));
       <input type="hidden" name="accion" value="cambiar_venc">
       <div class="field">
         <input type="date" name="nuevo_vencimiento" min="<?= date('Y-m-d') ?>"
-               value="<?= $al['vencimiento_creditos'] ?? date('Y-m-t') ?>" required
+               value="<?= $al['vencimiento_creditos'] ?? date('Y-m-d', strtotime('+' . (int)cfg('dias_vencimiento', 31) . ' days')) ?>" required
                style="width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;color:#fff;font-size:16px;font-family:inherit;outline:none">
       </div>
       <button type="submit" class="btn btn-outline" style="border-color:var(--blue);color:var(--blue)">

@@ -19,6 +19,8 @@ if (isset($_POST['inscribir'])) {
     if (mysqli_num_rows($ya) == 0) {
         mysqli_query($conex, "INSERT INTO inscripciones (alumno_id, clase_id) VALUES ($uid, $clase_id)");
         mysqli_query($conex, "UPDATE registronuevo SET creditos = GREATEST(0, creditos - 1) WHERE id=$uid");
+        recordatorio_si_es_pronto($uid, $clase_id);
+        avisar_creditos_bajos($uid);
     }
     header('Location: clases.php?ok=1');
     exit();
@@ -53,8 +55,9 @@ $dias_corto = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Training Point - Clases</title>
+  <title><?= gym_nombre() ?> - Clases</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="icono_pulso.png">
 </head>
 <body>
 <?php include '_layout_nav.php'; ?>

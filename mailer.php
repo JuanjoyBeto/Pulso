@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/config.php';
 // mailer.php - Función para enviar mails con PHPMailer
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -28,7 +29,8 @@ function enviarMail($destinatario_email, $destinatario_nombre, $asunto, $mensaje
         $mail->Port       = (int)($env['SMTP_PORT'] ?? 465);
         $mail->CharSet    = 'UTF-8';
 
-        $mail->setFrom($env['SMTP_USER'] ?? '', 'Training Point');
+        $gym = cfg('nombre_gimnasio', 'Pulso');
+        $mail->setFrom($env['SMTP_USER'] ?? '', $gym);
         $mail->addAddress($destinatario_email, $destinatario_nombre);
 
         $mail->isHTML(true);
@@ -36,7 +38,7 @@ function enviarMail($destinatario_email, $destinatario_nombre, $asunto, $mensaje
         $mail->Body    = "
         <div style='font-family:Arial,sans-serif;max-width:520px;margin:0 auto;background:#0a0a0a;color:#fff;border-radius:14px;overflow:hidden'>
           <div style='background:#0d1a2e;padding:24px;text-align:center;border-bottom:2px solid #3b9eff'>
-            <h2 style='margin:0;color:#fff;font-size:20px'>📍 TRAINING <span style='color:#3b9eff'>POINT</span></h2>
+            <h2 style='margin:0;color:#fff;font-size:20px'>📍 " . htmlspecialchars($gym) . "</h2>
           </div>
           <div style='padding:24px'>
             <p style='color:#aaa;font-size:14px;margin-bottom:16px'>Hola <strong style='color:#fff'>{$destinatario_nombre}</strong>,</p>
@@ -45,7 +47,7 @@ function enviarMail($destinatario_email, $destinatario_nombre, $asunto, $mensaje
             </div>
           </div>
           <div style='background:#111;padding:16px;text-align:center;font-size:11px;color:#555'>
-            Training Point · newlogin.alwaysdata.net
+            " . htmlspecialchars($gym) . (cfg('direccion') ? " · " . htmlspecialchars(cfg('direccion')) : "") . (cfg('telefono') ? " · " . htmlspecialchars(cfg('telefono')) : "") . (cfg('email_contacto') ? " · " . htmlspecialchars(cfg('email_contacto')) : "") . "<br>Enviado con Pulso
           </div>
         </div>";
         $mail->AltBody = strip_tags($mensaje_html);
