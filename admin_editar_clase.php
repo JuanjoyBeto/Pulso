@@ -101,7 +101,7 @@ $ts = strtotime($clase['fecha']);
     <div style="font-size:13px;color:var(--text2);margin-bottom:12px">
       ⚠️ Eliminar esta clase borrará también todas las inscripciones y asistencias relacionadas.
     </div>
-    <form method="post" onsubmit="return confirm('¿Seguro que querés eliminar esta clase? Esta acción no se puede deshacer.')">
+    <form method="post" data-confirm-tipo="peligro" data-confirm-titulo="¿Eliminar esta clase?" data-confirm-texto="Se borran también sus inscripciones y asistencias." data-confirm-nota="Esta acción no se puede deshacer." data-confirm-boton="Sí, eliminar">
       <input type="hidden" name="accion" value="eliminar">
       <button type="submit" class="btn btn-danger">Eliminar clase</button>
     </form>

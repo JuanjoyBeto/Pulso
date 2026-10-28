@@ -119,7 +119,7 @@ if ($clase_asist_id) {
     <a href="admin_nueva_clase.php" class="btn btn-blue" style="display:block;text-align:center;text-decoration:none;margin-bottom:8px">+ Nueva clase</a>
     <a href="admin_clase_recurrente.php" class="btn btn-outline" style="display:block;text-align:center;text-decoration:none;margin-bottom:14px;border-color:var(--blue);color:var(--blue)">🔄 Clases recurrentes</a>
 
-    <form method="post" action="admin_borrar_clases.php" id="form-clases" onsubmit="return confirm('¿Eliminar las clases seleccionadas? Se borrarán también sus inscripciones y asistencias.')">
+    <form method="post" action="admin_borrar_clases.php" id="form-clases" data-confirm-tipo="peligro" data-confirm-titulo="¿Eliminar las clases seleccionadas?" data-confirm-texto="Se borran también sus inscripciones y asistencias." data-confirm-nota="Esta acción no se puede deshacer." data-confirm-boton="Sí, eliminar">
       <!-- BARRA DE SELECCIÓN -->
       <div id="barra-seleccion" style="display:none;background:rgba(248,113,113,0.1);border:1px solid var(--red);border-radius:12px;padding:12px 14px;margin-bottom:12px;align-items:center;justify-content:space-between">
         <span id="contador-sel" style="font-size:13px;color:var(--red);font-weight:700">0 seleccionadas</span>

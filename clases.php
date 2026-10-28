@@ -15,6 +15,12 @@ if (isset($_POST['inscribir'])) {
         header('Location: clases.php?error=sincreditos');
         exit();
     }
+    // No se puede anotar a una clase que ya empezó
+    $ci = mysqli_fetch_assoc(mysqli_query($conex, "SELECT fecha, hora_inicio FROM clases WHERE id=$clase_id LIMIT 1"));
+    if (!$ci || strtotime($ci['fecha'] . ' ' . $ci['hora_inicio']) <= time()) {
+        header('Location: clases.php?error=yaempezo');
+        exit();
+    }
     $ya = mysqli_query($conex, "SELECT id FROM inscripciones WHERE alumno_id=$uid AND clase_id=$clase_id LIMIT 1");
     if (mysqli_num_rows($ya) == 0) {
         mysqli_query($conex, "INSERT INTO inscripciones (alumno_id, clase_id) VALUES ($uid, $clase_id)");
@@ -60,6 +66,7 @@ $sql = "SELECT c.*,
         (SELECT COUNT(*) FROM inscripciones WHERE clase_id=c.id AND alumno_id=$uid) as yo_inscripto
         FROM clases c 
         WHERE c.fecha >= CURDATE() 
+        AND NOT (c.fecha = CURDATE() AND COALESCE(c.hora_fin, c.hora_inicio) <= CURTIME()) 
         AND c.fecha <= DATE_ADD(CURDATE(), INTERVAL 30 DAY)
         ORDER BY c.fecha ASC, c.hora_inicio ASC";
 $res = mysqli_query($conex, $sql);
@@ -99,6 +106,8 @@ $dias_corto = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
   <?php endif; ?>
   <?php if (($_GET['error'] ?? '') === 'presente'): ?>
     <div class="alert alert-danger">Ya diste presente en esa clase, así que no te podés dar de baja.</div>
+  <?php elseif (($_GET['error'] ?? '') === 'yaempezo'): ?>
+    <div class="alert alert-danger">Esa clase ya empezó, así que no te podés anotar.</div>
   <?php elseif (($_GET['error'] ?? '') === 'empezada'): ?>
     <div class="alert alert-danger">Esa clase ya empezó, así que no te podés dar de baja.</div>
   <?php endif; ?>
@@ -140,6 +149,7 @@ $dias_corto = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
     <?php foreach ($items as $c):
       $yo = (bool)$c['yo_inscripto'];
       $disponibles = max(0, ($c['capacidad'] ?? 20) - $c['inscriptos']);
+      $en_curso = strtotime($c['fecha'] . ' ' . $c['hora_inicio']) <= time();
     ?>
     <div class="class-card">
       <div class="date-box">
@@ -149,25 +159,34 @@ $dias_corto = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
       <div class="class-info">
         <div class="class-name"><?= htmlspecialchars($c['nombre']) ?></div>
         <div class="class-time"><?= substr($c['hora_inicio'],0,5) ?> - <?= substr($c['hora_fin'],0,5) ?></div>
+        <?php if ($en_curso): ?>
+        <div class="class-spots" style="color:#facc15">● En curso</div>
+        <?php else: ?>
         <div class="class-spots"><?= $disponibles ?> lugares disponibles</div>
+        <?php endif; ?>
       </div>
       <?php if ($yo):
         $inicio = strtotime($c['fecha'] . ' ' . $c['hora_inicio']);
         $faltan = $inicio - time();
         $devuelve = $faltan >= $horas_baja * 3600;
-        $msj = $devuelve
-          ? '¿Darte de baja de ' . $c['nombre'] . '? Se te devuelve el crédito.'
-          : 'Faltan menos de ' . $horas_baja . ' horas para la clase. Si te das de baja liberás tu lugar, pero el crédito NO se devuelve. ¿Darte de baja igual?';
+        $cuando = date('d/m', $inicio) . ' a las ' . substr($c['hora_inicio'], 0, 5) . ' hs';
+        $conf = $devuelve
+          ? array('ok', 'Liberás tu lugar en ' . $c['nombre'] . ' del ' . $cuando . '.', '✓ Se te devuelve 1 crédito')
+          : array('aviso', 'Faltan menos de ' . $horas_baja . ' horas para ' . $c['nombre'] . ' (' . $cuando . '). Si te das de baja liberás tu lugar para otro alumno.', 'El crédito NO se devuelve');
       ?>
         <div class="acciones-clase">
           <span class="btn-class active">Inscripto ✓</span>
           <?php if ($faltan > 0): ?>
-          <form method="post" onsubmit="return confirm(<?= htmlspecialchars(json_encode($msj), ENT_QUOTES) ?>)">
+          <form method="post" data-confirm-tipo="<?= $conf[0] ?>" data-confirm-titulo="¿Darte de baja de la clase?"
+                data-confirm-texto="<?= htmlspecialchars($conf[1]) ?>" data-confirm-nota="<?= htmlspecialchars($conf[2]) ?>"
+                data-confirm-boton="Sí, darme de baja">
             <input type="hidden" name="clase_id" value="<?= $c['id'] ?>">
             <button type="submit" name="cancelar" class="btn-baja">Darme de baja</button>
           </form>
           <?php endif; ?>
         </div>
+      <?php elseif ($en_curso): ?>
+        <span class="btn-class" style="opacity:.4;cursor:default;font-size:10px">Ya empezó</span>
       <?php elseif ($creditos > 0 && $disponibles > 0): ?>
         <form method="post">
           <input type="hidden" name="clase_id" value="<?= $c['id'] ?>">

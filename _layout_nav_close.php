@@ -30,3 +30,4 @@
 </nav>
 </div>
 </div>
+<script src="confirmar.js?v=2"></script>

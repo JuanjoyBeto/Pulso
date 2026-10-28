@@ -152,7 +152,7 @@ $ini = strtoupper(substr($al['nombre'],0,1));
   <!-- QUITAR CRÉDITOS -->
   <div class="section-title">Descontar créditos</div>
   <div class="card-tp" style="margin-bottom:20px">
-    <form method="post" onsubmit="return confirm('¿Seguro que querés descontar créditos?')">
+    <form method="post" data-confirm-tipo="aviso" data-confirm-titulo="¿Descontar créditos?" data-confirm-texto="Se le van a restar los créditos que indicaste a este alumno." data-confirm-boton="Sí, descontar">
       <input type="hidden" name="accion" value="quitar">
       <div class="field">
         <label>Cantidad a descontar</label>

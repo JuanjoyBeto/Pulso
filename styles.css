@@ -518,3 +518,30 @@ body {
   margin-bottom: 14px !important;
   margin-top: 4px !important;
 }
+
+/* ---------- Ventana de confirmación propia ---------- */
+.cf-fondo { position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,.65); backdrop-filter:blur(3px);
+  display:none; align-items:center; justify-content:center; padding:20px; }
+.cf-fondo.cf-abierto { display:flex; animation:cf-in .15s ease; }
+@keyframes cf-in { from { opacity:0; } to { opacity:1; } }
+.cf-caja { width:100%; max-width:400px; background:var(--card); border:1px solid var(--border); border-radius:20px;
+  padding:26px 22px 20px; text-align:center; box-shadow:0 30px 80px -20px rgba(0,0,0,.8); animation:cf-up .18s ease; }
+@keyframes cf-up { from { transform:translateY(12px) scale(.98); } to { transform:none; } }
+.cf-icono { width:60px; height:60px; margin:0 auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; }
+.cf-aviso .cf-icono { background:rgba(250,204,21,.14); }
+.cf-peligro .cf-icono { background:rgba(248,113,113,.14); }
+.cf-ok .cf-icono { background:rgba(74,222,128,.14); }
+.cf-titulo { font-size:19px; font-weight:800; color:var(--text); margin-bottom:8px; }
+.cf-texto { font-size:14px; color:var(--text2); line-height:1.55; margin:0 0 14px; }
+.cf-nota { font-size:13px; font-weight:600; border-radius:12px; padding:10px 12px; margin-bottom:18px; }
+.cf-ok .cf-nota { background:rgba(74,222,128,.1); color:var(--green); border:1px solid rgba(74,222,128,.3); }
+.cf-aviso .cf-nota { background:rgba(250,204,21,.08); color:#facc15; border:1px solid rgba(250,204,21,.3); }
+.cf-peligro .cf-nota { background:rgba(248,113,113,.08); color:var(--red); border:1px solid rgba(248,113,113,.3); }
+.cf-botones { display:flex; gap:10px; }
+.cf-botones button { flex:1; padding:13px 10px; border-radius:12px; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; }
+.cf-no { background:transparent; border:1px solid var(--border); color:var(--text); }
+.cf-no:hover { background:var(--bg3); }
+.cf-si { border:none; color:#fff; background:var(--red); }
+.cf-si:hover { filter:brightness(1.1); }
+.cf-ok .cf-si { background:var(--blue); }
+.cf-si:disabled { opacity:.6; cursor:default; }
